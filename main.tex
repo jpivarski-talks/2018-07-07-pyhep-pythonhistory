@@ -20,6 +20,7 @@
 \usepackage{bold-extra}
 \usepackage{minted}
 \usepackage[thicklines]{cancel}
+\usepackage{fancyvrb}
 
 \xdefinecolor{dianablue}{rgb}{0.18,0.24,0.31}
 \xdefinecolor{darkblue}{rgb}{0.1,0.1,0.7}
@@ -123,10 +124,18 @@ All of the machine learning libraries I could find either have a Python interfac
 \end{itemize}
 \end{frame}
 
+\begin{frame}{I was an early adopter (thesis workflow from 2006)}
+\vspace{0.5 cm}
+\begin{columns}
+\column{1.1\linewidth}
+\includegraphics[width=\linewidth]{jims-old-code/thesis-code-flow.pdf}
+\end{columns}
+\end{frame}
+
 \begin{frame}{}
 \Large
 \vspace{1 cm}
-\textcolor{darkgray}{To be honest, Python isn't my favorite language.}
+\textcolor{darkgray}{But\ldots\ to be honest, Python isn't my favorite language.}
 
 \large
 \vspace{1 cm}
@@ -134,7 +143,7 @@ All of the machine learning libraries I could find either have a Python interfac
 
 \large
 \vspace{1 cm}
-\uncover<3->{\textcolor{darkgray}{But a dash of consensus is well worth a smattering of language features\ldots}}
+\uncover<3->{\textcolor{darkgray}{A dash of consensus is well worth a smattering of language features!}}
 \end{frame}
 
 \begin{frame}{Why Python?}
@@ -420,13 +429,47 @@ $\displaystyle \mbox{\tt m} \leftarrow +/(3+\iota 4)$ & & {\tt\normalsize m = (n
 \includegraphics[width=\linewidth]{quantstack.png}
 \end{frame}
 
-\begin{frame}{But how to deal with HEP data?}
-\vspace{0.5 cm}
+\begin{frame}[fragile]{But how to deal with HEP data?}
+\vspace{0.2 cm}
 $N$-dimensional arrays of values are great for image processing, signal processing, PDEs, but HEP data have more structure:
 
+\vspace{0.25 cm}
+\begin{columns}
+\column{0.2\linewidth}
+\column{0.25\linewidth}
+\includegraphics[width=\linewidth]{muons-as-objects.png}
 
+\column{0.05\linewidth}
+\centering vs
 
+\column{0.25\linewidth}
+\includegraphics[width=\linewidth]{muons-as-a-table.png}
+\column{0.2\linewidth}
+\end{columns}
 
+\vspace{0.25 cm}
+\begin{uncoverenv}<2->
+\scriptsize
+\begin{Verbatim}[commandchars=\\\{\}]
+[[Muon(\textcolor{darkgreen}{31.1}, \textcolor{darkorange}{-0.481}, \textcolor{blue}{0.882}), Muon(\textcolor{darkgreen}{9.76}, \textcolor{darkorange}{-0.124}, \textcolor{blue}{0.924}), Muon(\textcolor{darkgreen}{8.18}, \textcolor{darkorange}{-0.119}, \textcolor{blue}{0.923})],
+ [Muon(\textcolor{darkgreen}{5.27}, \textcolor{darkorange}{1.246}, \textcolor{blue}{-0.991})],
+ [Muon(\textcolor{darkgreen}{4.72}, \textcolor{darkorange}{-0.207}, \textcolor{blue}{0.953})],
+ [Muon(\textcolor{darkgreen}{8.59}, \textcolor{darkorange}{-1.754}, \textcolor{blue}{-0.264}), Muon(\textcolor{darkgreen}{8.714}, \textcolor{darkorange}{0.185}, \textcolor{blue}{0.629})], ...
+\end{Verbatim}
+\end{uncoverenv}
+
+\begin{uncoverenv}<3->
+\normalsize
+I've been working on ways to represent arbitrary physics objects as vectorizable arrays:
+
+\vspace{0.1 cm}
+\begin{tabular}{r l}
+\small offsets &                    {\tt\scriptsize \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3,\ \ \ \ \ \ 4,\ \ \ \ \ \ 5,\ \ \ \ \ \ \ 7} \\
+\small $p_T$ & \textcolor{darkgreen}{\tt\scriptsize \ \ 31.1,\ \ \ 9.76,\ \ \ 8.18,\ \ \ 5.27,\ \ \ 4.72,\ \ \ 8.59, 8.714} \\
+\small phi &  \textcolor{darkorange}{\tt\scriptsize -0.481,\ -0.123,\ -0.119,\ \ 1.246,\ -0.207,\ -1.754,\ 0.185} \\
+\small eta &        \textcolor{blue}{\tt\scriptsize \ 0.882,\ \ 0.924,\ \ 0.923,\ -0.991,\ \ 0.953,\ -0.264,\ 0.629} \\
+\end{tabular}
+\end{uncoverenv}
 \end{frame}
 
 
