@@ -366,11 +366,52 @@ $\mathcal{O}(N)$ statically typed, probably vectorized native bytecode operation
 \uncover<2->{\textcolor{darkblue}{In other words, a \underline{S}ingle (Python) \underline{I}nstruction on \underline{M}ultiple \underline{D}ata.}}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{This is not new}
+\Large
+\vspace{0.5 cm}
+\textcolor{darkorange}{\bf APL}, ``A Programming Language'' introduced the idea of single commands having sweeping effects across large arrays.
 
+\begin{center}
+\includegraphics[width=0.75\linewidth]{apl-timeline.pdf}
+\end{center}
 
+\normalsize
+\textcolor{gray}{All members of the APL family are intended for interactive data analysis.}
+
+\textcolor{gray}{Numpy, however, is a library in a general-purpose language, not a language in itself.}
+\end{frame}
+
+\begin{frame}{APL}
+\vspace{0.5 cm}
+
+APL pioneered conciseness; discovered the mistake of being too concise.
+
+\vspace{0.25 cm}
+This is Conway's Game of Life:
+
+\vspace{-0.3 cm}
+\[ \mbox{life} \leftarrow \{\uparrow 1\quad\omega \vee.\wedge 3\quad 4=+/,^{^-} 1\quad0\quad1\circ.\theta^{^-} 1\quad0\quad1\circ.\phi\subset\omega\} \]
+
+\vspace{0.5 cm}
+``Map'' is implicit (like Numpy ufunc), ``reduce'' is a slash (Numpy's ufuncs have a {\tt\small .reduce} method), functions are symbols. For example:
+
+\begin{columns}[t]
+\column{0.45\linewidth}
+\scriptsize
+\begin{minted}{python}
+\end{minted}
+
+\column{0.45\linewidth}
+\mbox{\hspace{-1 cm}\textcolor{darkblue}{vs}}
+\vspace{-\baselineskip}
+\scriptsize
+\begin{minted}{python}
+\end{minted}
+\end{columns}
 
 \end{frame}
+
+
 
 
 \end{document}
