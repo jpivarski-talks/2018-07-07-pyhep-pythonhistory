@@ -383,32 +383,28 @@ $\mathcal{O}(N)$ statically typed, probably vectorized native bytecode operation
 
 \begin{frame}{APL}
 \vspace{0.5 cm}
+\hfill \mbox{\includegraphics[height=3 cm]{tshirt.jpg}\hspace{-0.25 cm}}
 
+\vspace{-1.5 cm}
+\vspace{-0.5\baselineskip}
 APL pioneered conciseness; discovered the mistake of being too concise.
 
-\vspace{0.25 cm}
-This is Conway's Game of Life:
+\vspace{1 cm}
+\textcolor{darkblue}{Conway's Game of Life was one line:}
 
 \vspace{-0.3 cm}
 \[ \mbox{life} \leftarrow \{\uparrow 1\quad\omega \vee.\wedge 3\quad 4=+/,^{^-} 1\quad0\quad1\circ.\theta^{^-} 1\quad0\quad1\circ.\phi\subset\omega\} \]
 
 \vspace{0.5 cm}
-``Map'' is implicit (like Numpy ufunc), ``reduce'' is a slash (Numpy's ufuncs have a {\tt\small .reduce} method), functions are symbols. For example:
+\textcolor{darkblue}{``Map'' was implicit, ``reduce'' was a slash, functions were symbols. For example:}
 
-\begin{columns}[t]
-\column{0.45\linewidth}
-\scriptsize
-\begin{minted}{python}
-\end{minted}
-
-\column{0.45\linewidth}
-\mbox{\hspace{-1 cm}\textcolor{darkblue}{vs}}
-\vspace{-\baselineskip}
-\scriptsize
-\begin{minted}{python}
-\end{minted}
-\end{columns}
-
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c c c}
+APL & \mbox{\hspace{0.5 cm}} & Numpy \\\hline
+$\displaystyle m \leftarrow +/(3+\iota 4)$ & & {\tt\small m = (numpy.arange(4) + 3).sum()}
+\end{tabular}
+\end{center}
 \end{frame}
 
 
