@@ -299,17 +299,18 @@ b'HellEVILorld!'
 \hfill \includegraphics[height=1.5 cm]{numpy-logo.png}
 
 \scriptsize
-\vspace{-1.5 cm}
+\vspace{-1.7 cm}
 \begin{minted}{python}
+>>> import ctypes
+
 >>> # any *pointer* may be cast as an array
 >>> ptr = ctypes.cast(id(hello), ctypes.POINTER(ctypes.c_uint8))
 >>> ptr.__array_interface__ = {
 ...     "version": 3,
 ...     "typestr": numpy.ctypeslib._dtype(type(ptr.contents)).str,
 ...     "data": (ctypes.addressof(ptr.contents), False),
-...     "shape": (100,)    # how much memory do you want to poke?
+...     "shape": (100,)    # how many bytes do you want to access?
 ... }
-... 
 >>> b = numpy.array(ptr, copy=False)
 >>> b
 array([  2,   0,   0,   0,   0,   0,   0,   0, 224, 136, 151,   0,   0,
@@ -323,6 +324,52 @@ array([  2,   0,   0,   0,   0,   0,   0,   0, 224, 136, 151,   0,   0,
 >>> "".join(map(chr, b[32:45]))
 'HellEVILorld!'
 \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{The Numpythonic mindset}
+\large
+\vspace{0.5 cm}
+Although you can write Python {\tt\normalsize for} loops over Numpy arrays, you don't reap the benefit unless you express your calculation in Numpy ufuncs (universal functions).
+
+\vspace{\baselineskip}
+\begin{columns}[t]
+\column{0.45\linewidth}
+\vspace{-\baselineskip}
+\scriptsize
+\begin{minted}{python}
+pz = numpy.empty(len(pt))
+for i in range(len(pt)):
+    pz[i] = pt[i]*numpy.sinh(eta[i])
+\end{minted}
+
+\vspace{0.5 cm}
+$\mathcal{O}(N)$ Python bytecode instructions, type-checks, interpreter locks.
+
+\column{0.45\linewidth}
+\mbox{\hspace{-1 cm}\textcolor{darkblue}{vs}}
+\vspace{-\baselineskip}
+\scriptsize
+\begin{minted}{python}
+pz = pt * numpy.sinh(eta)
+\end{minted}
+\vspace{2\baselineskip}
+
+\vspace{0.5 cm}
+$\mathcal{O}(1)$ Python bytecode instructions, type-checks, interpreter locks.
+
+\vspace{0.1 cm}
+$\mathcal{O}(N)$ statically typed, probably vectorized native bytecode operations on contiguous memory.
+\end{columns}
+
+\large
+\vspace{0.75 cm}
+\uncover<2->{\textcolor{darkblue}{In other words, a \underline{S}ingle (Python) \underline{I}nstruction on \underline{M}ultiple \underline{D}ata.}}
+\end{frame}
+
+\begin{frame}{}
+
+
+
 \end{frame}
 
 
