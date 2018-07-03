@@ -382,31 +382,43 @@ $\mathcal{O}(N)$ statically typed, probably vectorized native bytecode operation
 \end{frame}
 
 \begin{frame}{APL}
+\Large
 \vspace{0.5 cm}
 \hfill \mbox{\includegraphics[height=3 cm]{tshirt.jpg}\hspace{-0.25 cm}}
 
-\vspace{-1.5 cm}
-\vspace{-0.5\baselineskip}
-APL pioneered conciseness; discovered the mistake of being too concise.
+\vspace{-2.75 cm}
+APL pioneered conciseness;
 
-\vspace{1 cm}
-\textcolor{darkblue}{Conway's Game of Life was one line:}
+discovered the mistake of being too concise.
+
+\large
+\vspace{1.25 cm}
+Conway's Game of Life was one line of code:
 
 \vspace{-0.3 cm}
-\[ \mbox{life} \leftarrow \{\uparrow 1\quad\omega \vee.\wedge 3\quad 4=+/,^{^-} 1\quad0\quad1\circ.\theta^{^-} 1\quad0\quad1\circ.\phi\subset\omega\} \]
+\[ \mbox{\tt life} \leftarrow \{\uparrow 1\quad\omega \vee.\wedge 3\quad 4=+/,^{^-} 1\quad0\quad1\circ.\Theta^{^-} 1\quad0\quad1\circ.\Phi\subset\omega\} \]
 
 \vspace{0.5 cm}
-\textcolor{darkblue}{``Map'' was implicit, ``reduce'' was a slash, functions were symbols. For example:}
+``Map'' was implicit, ``reduce'' was a slash, functions were symbols. For example:
 
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{c c c}
 APL & \mbox{\hspace{0.5 cm}} & Numpy \\\hline
-$\displaystyle m \leftarrow +/(3+\iota 4)$ & & {\tt\small m = (numpy.arange(4) + 3).sum()}
+$\displaystyle \mbox{\tt m} \leftarrow +/(3+\iota 4)$ & & {\tt\normalsize m = (numpy.arange(4) + 3).sum()}
 \end{tabular}
 \end{center}
 \end{frame}
 
+\begin{frame}{Numpythonic mindset: GPU and vectorization}
+\vspace{0.35 cm}
+\includegraphics[width=\linewidth]{cupy.png}
+\end{frame}
+
+\begin{frame}{Numpythonic mindset: GPU and vectorization}
+\vspace{0.35 cm}
+\includegraphics[width=\linewidth]{quantstack.png}
+\end{frame}
 
 
 
