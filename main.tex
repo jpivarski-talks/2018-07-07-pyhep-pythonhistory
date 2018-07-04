@@ -472,6 +472,49 @@ I've been working on ways to represent arbitrary physics objects as vectorizable
 \end{uncoverenv}
 \end{frame}
 
+\begin{frame}[fragile]{Extending Numpy's concept of ``broadcasting''}
+\vspace{0.5 cm}
+\begin{columns}
+\column{1.08\linewidth}
+\scriptsize
+\vspace{0.25 cm}
+{\normalsize In Numpy, arithmetic is applied element-wise; scalars are duplicated to fit:}
+\begin{minted}{python}
+>>> MET = numpy.array([(10.2, -0.480), (34.1, 1.251), (26.5, -0.22), (19.0, -1.75)],
+...    dtype=[("E", float), ("phi", float)])
+>>> MET["E"] * 1.1
+array([11.22, 37.51, 29.15, 20.9 ])
+\end{minted}
+
+\vspace{0.25 cm}
+\begin{uncoverenv}<2->
+{\normalsize We can apply operations element-wise if their nested structure is the same:}
+\begin{minted}{python}
+>>> muons = awkward.fromiter(
+...     [[Muon(31.1, -0.481, 0.882), Muon(9.76, -0.124, 0.924), Muon(8.18, -0.119, 0.923)],
+...      [Muon(5.27, 1.246, -0.991)], [Muon(4.72, -0.207, 0.953)],
+...      [Muon(8.59, -1.754, -0.264), Muon(8.714, 0.185, 0.629)]])
+>>> muons["pt"]
+<JaggedArray [[31.1   9.76  8.18] [5.27] [4.72] [8.59  8.714]] at 7d5022ab3f90>
+>>> muons["pt"] * numpy.sinh(muons["eta"])
+<JaggedArray [[31.12755703 10.35740718  8.66877254] [-6.12037182] [5.21063432]
+              [-2.29419425  5.84974849]] at 7d50223d77d0>
+\end{minted}
+\end{uncoverenv}
+
+\vspace{0.25 cm}
+\begin{uncoverenv}<3->
+{\normalsize One-per-event scalars can be broadcast down to multi-per-event jagged arrays:}
+\begin{minted}{python}
+>>> muons["phi"] - MET["phi"]
+<JaggedArray [[-0.001  0.356  0.361] [-0.005] [0.013] [-0.004  1.935]] at 7d50223d7790>
+\end{minted}
+\end{uncoverenv}
+\end{columns}
+\end{frame}
+
+
+
 
 \end{document}
 
