@@ -120,7 +120,7 @@ All of the machine learning libraries I could find either have a Python interfac
 \vspace{0.1 cm}
 \textcolor{gray}{\normalsize (Half Python, half C++? Anyway, a lot more than in LHC Run I.)}
 
-\item<4-> Python is a bridge to machine learning and other statistical software written outside of HEP.
+\item<4-> Python is the most natural bridge to machine learning and other statistical software written outside of HEP.
 \end{itemize}
 \end{frame}
 
@@ -355,7 +355,7 @@ for i in range(len(pt)):
 $\mathcal{O}(N)$ Python bytecode instructions, type-checks, interpreter locks.
 
 \column{0.45\linewidth}
-\mbox{\hspace{-1 cm}\textcolor{darkblue}{vs}}
+\mbox{\hspace{-0.85 cm}\textcolor{darkblue}{vs}}
 \vspace{-\baselineskip}
 \scriptsize
 \begin{minted}{python}
@@ -420,6 +420,17 @@ $\displaystyle \mbox{\tt m} \leftarrow +/(3+\iota 4)$ & & {\tt\normalsize m = (n
 \end{frame}
 
 \begin{frame}{Numpythonic mindset: GPU and vectorization}
+\Large
+\vspace{0.5 cm}
+\begin{center}
+As an array abstraction, Numpy presents a high-level way \\ for users to think about vectorization.
+
+\vspace{1 cm}
+Vectorization is key to using GPUs and modern CPUs efficiently.
+\end{center}
+\end{frame}
+
+\begin{frame}{Numpythonic mindset: GPU and vectorization}
 \vspace{0.35 cm}
 \includegraphics[width=\linewidth]{cupy.png}
 \end{frame}
@@ -429,9 +440,9 @@ $\displaystyle \mbox{\tt m} \leftarrow +/(3+\iota 4)$ & & {\tt\normalsize m = (n
 \includegraphics[width=\linewidth]{quantstack.png}
 \end{frame}
 
-\begin{frame}[fragile]{But how to deal with HEP data?}
+\begin{frame}[fragile]{Can Numpy deal with HEP data?}
 \vspace{0.2 cm}
-$N$-dimensional arrays of values are great for image processing, signal processing, PDEs, but HEP data have more structure:
+$N$-dimensional arrays of values are great for image processing, signal processing, PDEs, but HEP data have nested structure with variable-length contents:
 
 \vspace{0.25 cm}
 \begin{columns}
@@ -488,7 +499,7 @@ array([11.22, 37.51, 29.15, 20.9 ])
 
 \vspace{0.25 cm}
 \begin{uncoverenv}<2->
-{\normalsize We can apply operations element-wise if their nested structure is the same:}
+{\normalsize We could also apply operations element-wise if their nested structure is the same:}
 \begin{minted}{python}
 >>> muons = awkward.fromiter(
 ...     [[Muon(31.1, -0.481, 0.882), Muon(9.76, -0.124, 0.924), Muon(8.18, -0.119, 0.923)],
@@ -504,7 +515,7 @@ array([11.22, 37.51, 29.15, 20.9 ])
 
 \vspace{0.25 cm}
 \begin{uncoverenv}<3->
-{\normalsize One-per-event scalars can be broadcast down to multi-per-event jagged arrays:}
+{\normalsize One-per-event scalars could also be broadcast down to multi-per-event jagged arrays:}
 \begin{minted}{python}
 >>> muons["phi"] - MET["phi"]
 <JaggedArray [[-0.001  0.356  0.361] [-0.005] [0.013] [-0.004  1.935]] at 7d50223d7790>
@@ -513,7 +524,7 @@ array([11.22, 37.51, 29.15, 20.9 ])
 \end{columns}
 \end{frame}
 
-\begin{frame}{Big performance gain, event without writing C code}
+\begin{frame}{Big performance gain, even without writing C code}
 \vspace{0.3 cm}
 \begin{columns}
 \column{1.15\linewidth}
@@ -521,6 +532,51 @@ array([11.22, 37.51, 29.15, 20.9 ])
 \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{How much more HEP analysis can be vectorized?}
+\scriptsize
+\vspace{0.5 cm}
+
+\hfill \includegraphics[height=3 cm]{jaydeep.jpg}
+
+\vspace{-3 cm}
+{\normalsize \textcolor{darkblue}{Jaydeep Nandi}, a CERN/HSF Google Summer of Code student, \\ is investigating vectorized algorithms to replace for-loop manipulations.}
+
+\vspace{0.4 cm}
+{\normalsize Explode to event-wise pairs (using only hardware-SIMD operations):}
+\begin{minted}{python}
+>>> pairs = muons.pairs()
+>>> pairs
+<JaggedArray [[<Pair 0> <Pair 1> <Pair 2>] [] [] [<Pair 3>]]>
+>>> pairs[0][0].tolist()
+{"_0": {"pt": 31.1, "phi": -0.481, "eta": 0.882, "pz": 31.128},
+ "_1": {"pt": 9.76, "phi": -0.123, "eta": 0.924, "pz": 10.358}}
+\end{minted}
+
+\vspace{0.4 cm}
+{\normalsize Now we can do such things as compute invariant masses without loops:}
+\begin{minted}{python}
+>>> pt1, eta1, phi1 = pairs["_0"]["pt"], pairs["_0"]["eta"], pairs["_0"]["phi"]
+>>> pt2, eta2, phi2 = pairs["_1"]["pt"], pairs["_1"]["eta"], pairs["_1"]["phi"]
+>>> mass = numpy.sqrt(2*pt1*pt2*(numpy.cosh(eta1 - eta2) - numpy.cos(phi1 - phi2)))
+\end{minted}
+
+\vspace{0.4 cm}
+{\normalsize Also considering problems like ``minimize per event'' and ``match gen/reco candidates'' in hardware-SIMD operations, exposed in a Numpy-like interface.}
+\end{frame}
+
+\begin{frame}{Summary}
+\large
+\vspace{0.5 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item Python is a popular language, even in sciences where performance is critical.
+\item It has good features for readability and is easy to learn, particularly by scientists whose primary interest is not programming.
+\item It came early enough to build up a numerical ecosystem.
+\item The community was almost fractured by the Numeric-numarray split.
+\item Modern Numpy is a fixed API that can be swapped out for GPU and SIMD implementations.
+\item Numpy's existing API is flexible enough to represent complex data structures.
+\item May be a road toward vectorized HEP analysis, in the guise of interactive array primitives.
+\end{itemize}
+\end{frame}
 
 \end{document}
 
