@@ -135,7 +135,9 @@ All of the machine learning libraries I could find either have a Python interfac
 \begin{frame}{}
 \Large
 \vspace{1 cm}
-\textcolor{darkgray}{But\ldots\ to be honest, Python isn't my favorite language.}
+\begin{columns}
+\column{1.03\linewidth}
+\textcolor{darkgray}{But to be honest, Python isn't my idea of an ideal language.}
 
 \large
 \vspace{1 cm}
@@ -143,7 +145,8 @@ All of the machine learning libraries I could find either have a Python interfac
 
 \large
 \vspace{1 cm}
-\uncover<3->{\textcolor{darkgray}{A dash of consensus is well worth a smattering of language features!}}
+\uncover<3->{\textcolor{darkgray}{HOWEVER, a heavy dash of consensus is worth a smattering of language features!}}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Why Python?}
@@ -221,9 +224,9 @@ Python was good enough and first.
 \end{columns}
 \end{frame}
 
-\begin{frame}{The key to ecosystem development was a good array library}
+\begin{frame}{The key to ecosystem development was a common array library}
 \large
-\vspace{0.3 cm}
+\vspace{0.1 cm}
 
 \renewcommand{\arraystretch}{1.15}
 \mbox{\hspace{-0.5 cm}\begin{tabular}{c p{0.95\linewidth}}
@@ -240,6 +243,19 @@ Python was good enough and first.
 2014 & \textcolor{darkorange}{\bf Jupyter} \\
 2015 & \textcolor{darkorange}{\bf Keras} \\
 \end{tabular}}
+
+\begin{uncoverenv}<2->
+\vspace{-3 cm}
+\hfill \fbox{\begin{minipage}{7 cm}
+\vspace{0.2 cm}
+\begin{center}
+\begin{minipage}{6.5 cm}
+The scientific Python ecosystem could have failed before it started if the Numeric-numarray split hadn't been resolved!
+\end{minipage}
+\vspace{0.2 cm}
+\end{center}
+\end{minipage}}
+\end{uncoverenv}
 \end{frame}
 
 \begin{frame}[fragile]{Numpy is high-level, array-at-a-time math}
